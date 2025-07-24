@@ -1,250 +1,121 @@
-import { useState } from "react";
-import { useParams, useNavigate } from "react-router";
-import { ArrowLeft, Upload, CreditCard } from "lucide-react";
+import { useNavigate, useParams } from "react-router";
+import { useForm, Controller } from "react-hook-form";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
+import { ArrowLeft, CreditCard, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "sonner";
-import Navbar from "@/components/Navbar";
+import useAxiosSecure from "@/hooks/useAxiosSecure";
+import useAuth from "@/hooks/useAuth";
+
+// This is your public ImgBB API key. You can get your own from imgbb.com
+const IMGBB_API_KEY = 'YOUR_IMGBB_API_KEY';
 
 const ApplyScholarship = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    phone: "",
-    photo: null, // Removed 'as File | null'
-    address: "",
-    gender: "",
-    degree: "",
-    sscResult: "",
-    hscResult: "",
-    studyGap: ""
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const { register, handleSubmit, control, formState: { errors } } = useForm();
+
+  const { data: scholarship, isLoading: isScholarshipLoading } = useQuery({
+    queryKey: ['scholarship', id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/scholarships/${id}`);
+      return res.data;
+    },
+    enabled: !!id,
   });
 
-  const handleInputChange = (field, value) => { // Removed type annotations
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
+  const mutation = useMutation({
+    mutationFn: (applicationData) => axiosSecure.post(`/applications/${id}/apply`, applicationData),
+    onSuccess: () => {
+      toast.success("Application submitted successfully! Payment processing is simulated.");
+      navigate('/user/dashboard'); // Redirect to dashboard after successful application
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || "Failed to submit application.");
+    }
+  });
 
-  const handleFileChange = (e) => { // Removed : React.ChangeEvent<HTMLInputElement>
-    if (e.target.files && e.target.files[0]) {
-      setFormData(prev => ({ ...prev, photo: e.target.files[0] })); // Removed '!'
+  const onSubmit = async (data) => {
+    // 1. Upload image to ImgBB
+    const imageFile = { image: data.applicantPhoto[0] };
+    const res = await axios.post(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, imageFile, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    });
+
+    if (res.data.success) {
+      const applicationData = {
+        ...data,
+        applicantPhoto: res.data.data.display_url,
+      };
+      
+      // Here you would typically integrate a payment gateway like Stripe.
+      // For this project, we will simulate a successful payment and proceed.
+      mutation.mutate(applicationData);
+    } else {
+        toast.error("Image upload failed. Please try again.");
     }
   };
 
-  const handleSubmit = async (e) => { // Removed : React.FormEvent
-    e.preventDefault();
-
-    // Validate form
-    const requiredFields = ['phone', 'address', 'gender', 'degree', 'sscResult', 'hscResult'];
-    // Removed type assertion 'as keyof typeof formData'
-    const missingFields = requiredFields.filter(field => !formData[field]);
-
-    if (missingFields.length > 0 || !formData.photo) {
-      toast.error("Please fill in all required fields and upload your photo");
-      return;
-    }
-
-    try {
-      // Simulate form submission
-      console.log("Submitting application:", formData);
-
-      // Simulate payment processing
-      toast.success("Application submitted successfully! Redirecting to payment...");
-
-      // Simulate payment redirect
-      setTimeout(() => {
-        navigate(`/payment-success`);
-      }, 2000);
-
-    } catch (error) {
-      toast.error("Failed to submit application. Please try again.");
-    }
-  };
+  if (isScholarshipLoading) {
+    return <div className="flex justify-center items-center h-screen"><Loader2 className="h-16 w-16 animate-spin text-blue-600" /></div>;
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Button variant="outline" onClick={() => navigate(-1)} className="mb-6">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
-
+    <div className="bg-gray-50 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <Button variant="outline" onClick={() => navigate(-1)} className="mb-6"><ArrowLeft className="mr-2 h-4 w-4" />Back</Button>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Application Form */}
           <div className="lg:col-span-2">
             <Card>
-              <CardHeader>
-                <CardTitle>Scholarship Application Form</CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle>Scholarship Application Form</CardTitle></CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                  {/* Personal Info */}
+                  <Input type="tel" placeholder="Phone Number *" {...register("applicantPhone", { required: true })} />
+                  <div><Label htmlFor="applicantPhoto">Applicant Photo *</Label><Input id="applicantPhoto" type="file" accept="image/*" {...register("applicantPhoto", { required: true })} /></div>
+                  <Input placeholder="Address (Village, District, Country) *" {...register("applicantAddress", { required: true })} />
+                  
+                  {/* Dropdowns */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="phone">Phone Number *</Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        value={formData.phone}
-                        onChange={(e) => handleInputChange('phone', e.target.value)}
-                        placeholder="Enter your phone number"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="photo">Applicant Photo *</Label>
-                      <div className="mt-1">
-                        <Input
-                          id="photo"
-                          type="file"
-                          accept="image/*"
-                          onChange={handleFileChange}
-                          required
-                        />
-                      </div>
-                    </div>
+                     <Controller name="applicantGender" control={control} rules={{ required: true }} render={({ field }) => ( <Select onValueChange={field.onChange} defaultValue={field.value}> <SelectTrigger><SelectValue placeholder="Select Gender *" /></SelectTrigger> <SelectContent><SelectItem value="male">Male</SelectItem><SelectItem value="female">Female</SelectItem><SelectItem value="other">Other</SelectItem></SelectContent></Select> )} />
+                     <Controller name="applicantApplyingDegree" control={control} rules={{ required: true }} render={({ field }) => ( <Select onValueChange={field.onChange} defaultValue={field.value}><SelectTrigger><SelectValue placeholder="Select Applying Degree *"/></SelectTrigger><SelectContent><SelectItem value="Diploma">Diploma</SelectItem><SelectItem value="Bachelor">Bachelor</SelectItem><SelectItem value="Masters">Masters</SelectItem></SelectContent></Select>)} />
                   </div>
 
-                  <div>
-                    <Label htmlFor="address">Address (Village, District, Country) *</Label>
-                    <Input
-                      id="address"
-                      value={formData.address}
-                      onChange={(e) => handleInputChange('address', e.target.value)}
-                      placeholder="Enter your complete address"
-                      required
-                    />
-                  </div>
-
+                  {/* Academic Info */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label>Gender *</Label>
-                      <Select value={formData.gender} onValueChange={(value) => handleInputChange('gender', value)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select gender" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="male">Male</SelectItem>
-                          <SelectItem value="female">Female</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <Label>Applying Degree *</Label>
-                      <Select value={formData.degree} onValueChange={(value) => handleInputChange('degree', value)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select degree" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="diploma">Diploma</SelectItem>
-                          <SelectItem value="bachelor">Bachelor</SelectItem>
-                          <SelectItem value="masters">Masters</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                    <Input placeholder="SSC Result *" {...register("sscResult", { required: true })} />
+                    <Input placeholder="HSC Result *" {...register("hscResult", { required: true })} />
                   </div>
+                   <Controller name="studyGap" control={control} render={({ field }) => ( <Select onValueChange={field.onChange} defaultValue={field.value}><SelectTrigger><SelectValue placeholder="Study Gap (Optional)"/></SelectTrigger><SelectContent><SelectItem value="none">No Gap</SelectItem><SelectItem value="1">1 Year</SelectItem><SelectItem value="2">2 Years</SelectItem><SelectItem value="3+">3+ Years</SelectItem></SelectContent></Select>)} />
 
+                  {/* Read-only fields */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="sscResult">SSC Result *</Label>
-                      <Input
-                        id="sscResult"
-                        value={formData.sscResult}
-                        onChange={(e) => handleInputChange('sscResult', e.target.value)}
-                        placeholder="Enter SSC result"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="hscResult">HSC Result *</Label>
-                      <Input
-                        id="hscResult"
-                        value={formData.hscResult}
-                        onChange={(e) => handleInputChange('hscResult', e.target.value)}
-                        placeholder="Enter HSC result"
-                        required
-                      />
-                    </div>
+                    <div><Label>University Name</Label><Input value={scholarship?.universityName} readOnly /></div>
+                    <div><Label>Scholarship Category</Label><Input value={scholarship?.scholarshipCategory} readOnly /></div>
                   </div>
-
-                  <div>
-                    <Label>Study Gap (Optional)</Label>
-                    <Select value={formData.studyGap} onValueChange={(value) => handleInputChange('studyGap', value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select study gap if any" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="none">No Gap</SelectItem>
-                        <SelectItem value="1year">1 Year</SelectItem>
-                        <SelectItem value="2years">2 Years</SelectItem>
-                        <SelectItem value="3years">3+ Years</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label>University Name</Label>
-                      <Input value="Harvard University" readOnly className="bg-gray-100" />
-                    </div>
-
-                    <div>
-                      <Label>Scholarship Category</Label>
-                      <Input value="Full Fund" readOnly className="bg-gray-100" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label>Subject Category</Label>
-                    <Input value="Engineering" readOnly className="bg-gray-100" />
-                  </div>
-
-                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
-                    Submit Application & Proceed to Payment
+                  <div><Label>Subject Category</Label><Input value={scholarship?.subjectCategory} readOnly /></div>
+                  
+                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={mutation.isLoading}>
+                    {mutation.isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Submit & Proceed to Payment'}
                   </Button>
                 </form>
               </CardContent>
             </Card>
           </div>
-
-          {/* Payment Summary */}
           <div className="lg:col-span-1">
-            <Card className="sticky top-6">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <CreditCard className="mr-2 h-5 w-5" />
-                  Payment Summary
-                </CardTitle>
-              </CardHeader>
+            <Card className="sticky top-24">
+              <CardHeader><CardTitle className="flex items-center"><CreditCard className="mr-2 h-5 w-5" />Payment Summary</CardTitle></CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span>Application Fee</span>
-                    <span>$50</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Service Charge</span>
-                    <span>$100</span>
-                  </div>
+                  <div className="flex justify-between"><span>Application Fee</span><span>${scholarship?.applicationFees}</span></div>
+                  <div className="flex justify-between"><span>Service Charge</span><span>${scholarship?.serviceCharge}</span></div>
                   <hr />
-                  <div className="flex justify-between font-bold text-lg">
-                    <span>Total</span>
-                    <span>$150</span>
-                  </div>
-                </div>
-
-                <div className="text-sm text-gray-600">
-                  <p>• Secure payment processing</p>
-                  <p>• Money-back guarantee</p>
-                  <p>• 24/7 customer support</p>
-                </div>
+                  <div className="flex justify-between font-bold text-lg"><span>Total</span><span>${scholarship?.applicationFees + scholarship?.serviceCharge}</span></div>
               </CardContent>
             </Card>
           </div>
@@ -253,5 +124,4 @@ const ApplyScholarship = () => {
     </div>
   );
 };
-
 export default ApplyScholarship;
