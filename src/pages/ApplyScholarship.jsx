@@ -109,7 +109,7 @@ const ApplyScholarship = () => {
                   </div>
                   <div><Label>Subject Category</Label><Input value={scholarship?.subjectCategory} readOnly /></div>
 
-                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={mutation.isLoading}>
+                  <Button type="submit" className="w-full bg-[#009b5d] hover:bg-[#009b5d]/70" disabled={mutation.isLoading}>
                     {mutation.isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Submit & Proceed to Payment'}
                   </Button>
                 </form>
