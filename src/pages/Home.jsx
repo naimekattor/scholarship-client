@@ -9,9 +9,9 @@ import axios from "axios";
 import { BorderBeam } from './../components/magicui/border-beam';
 
 const ScholarshipCard = ({ scholarship }) => (
-  <Card className="relative hover:shadow-lg transition-shadow duration-300 border-0 shadow-md flex flex-col">
+  <Card className="relative hover:shadow-lg transition-shadow duration-300 border-0 shadow-md flex flex-col py-0">
     <CardHeader className="p-0">
-      <img src={scholarship.universityLogo} alt={scholarship.universityName} className="w-full h-48 object-cover rounded-t-lg" />
+      <img src={scholarship.universityLogo} alt={scholarship.universityName} className="w-full h-full object-cover rounded-t-lg" />
     </CardHeader>
     <CardContent className="p-4 flex-grow">
       <Badge className="mb-2">{scholarship.scholarshipCategory}</Badge>
@@ -25,7 +25,7 @@ const ScholarshipCard = ({ scholarship }) => (
       </div>
     </CardContent>
     <CardFooter className="p-4 pt-0">
-      <Button asChild className="w-full bg-blue-600 hover:bg-blue-700">
+      <Button asChild className="w-full bg-[#009b5d] hover:bg-[#009b5d]">
         <Link to={`/scholarship/${scholarship._id}`}>View Details <ChevronRight className="ml-2 h-4 w-4" /></Link>
       </Button>
     </CardFooter>
@@ -39,7 +39,7 @@ const ScholarshipCard = ({ scholarship }) => (
       delay={3}
       size={400}
       borderWidth={2}
-      className="from-transparent via-blue-500 to-transparent"
+      className="from-transparent via-[#009b5d] to-transparent"
     />
   </Card>
 );
@@ -72,11 +72,11 @@ const Home = () => {
         )}
         <div className="text-center mt-12">
           <Link to="/scholarships">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 relative">
+            <Button size="lg" className="bg-[#009b5d] hover:bg-[#009b5d] relative">
               View All Scholarships
               <ChevronRight className="ml-2 h-5 w-5" />
               <BorderBeam duration={6} size={400} className="from-transparent via-red-500 to-transparent" />
-              <BorderBeam duration={6} delay={3} size={400} borderWidth={2} className="from-transparent via-blue-500 to-transparent" />
+              <BorderBeam duration={6} delay={3} size={400} borderWidth={2} className="from-transparent via-[#009b5d] to-transparent" />
             </Button>
           </Link>
 
