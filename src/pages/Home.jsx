@@ -7,6 +7,7 @@ import HeroBanner from "@/components/HeroBanner";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BorderBeam } from './../components/magicui/border-beam';
+import CourseCategories from "../components/CourseCategories";
 
 const ScholarshipCard = ({ scholarship }) => (
   <Card className="relative hover:shadow-lg transition-shadow duration-300 border-0 shadow-md flex flex-col py-0">
@@ -84,6 +85,7 @@ const Home = () => {
         </div>
       </section>
       {/* You can add your other static sections back here */}
+      <CourseCategories />
     </div>
   );
 };
