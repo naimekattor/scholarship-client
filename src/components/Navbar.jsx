@@ -37,8 +37,7 @@ const Navbar = () => {
       <NavLink
         to="/"
         className={({ isActive }) =>
-          `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-            isActive ? "text-blue-600 bg-blue-50" : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+          `px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? "text-blue-600 bg-blue-50" : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
           }`
         }
         onClick={() => setIsOpen(false)}
@@ -48,8 +47,7 @@ const Navbar = () => {
       <NavLink
         to="/scholarships"
         className={({ isActive }) =>
-          `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-            isActive ? "text-blue-600 bg-blue-50" : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+          `px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? "text-blue-600 bg-blue-50" : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
           }`
         }
         onClick={() => setIsOpen(false)}
@@ -60,10 +58,9 @@ const Navbar = () => {
         <NavLink
           to={getDashboardPath()}
           className={({ isActive }) =>
-          `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-            isActive ? "text-blue-600 bg-blue-50" : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
-          }`
-        }
+            `px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? "text-blue-600 bg-blue-50" : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+            }`
+          }
           onClick={() => setIsOpen(false)}
         >
           Dashboard
@@ -73,7 +70,7 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
+    <nav className="bg-white shadow-sm py-2 border-b sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
@@ -132,13 +129,13 @@ const Navbar = () => {
       </div>
       {isOpen && (
         <div className="md:hidden border-t">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">{navItems}</div>
-            {!user && (
-                 <div className="px-2 pb-3 space-y-2">
-                    <Button variant="outline" asChild className="w-full justify-center"><Link to="/auth" onClick={() => setIsOpen(false)}>Login</Link></Button>
-                    <Button asChild className="w-full justify-center bg-blue-600 hover:bg-blue-700"><Link to="/auth" onClick={() => setIsOpen(false)}>Sign Up</Link></Button>
-                 </div>
-            )}
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">{navItems}</div>
+          {!user && (
+            <div className="px-2 pb-3 space-y-2">
+              <Button variant="outline" asChild className="w-full justify-center"><Link to="/auth" onClick={() => setIsOpen(false)}>Login</Link></Button>
+              <Button asChild className="w-full justify-center bg-blue-600 hover:bg-blue-700"><Link to="/auth" onClick={() => setIsOpen(false)}>Sign Up</Link></Button>
+            </div>
+          )}
         </div>
       )}
     </nav>
