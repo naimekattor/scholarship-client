@@ -74,7 +74,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-blue-600 text-white p-2 rounded-lg">
+            <div className="bg-[#009b5d] text-white p-2 rounded-lg">
               <span className="font-bold text-xl">SG</span>
             </div>
             <span className="font-bold text-xl text-gray-900 hidden sm:block">Scholar Gateway</span>
@@ -116,7 +116,7 @@ const Navbar = () => {
             ) : (
               <div className="hidden md:flex items-center space-x-2">
                 <Button variant="outline" asChild><Link to="/auth">Login</Link></Button>
-                <Button asChild className="bg-blue-600 hover:bg-blue-700"><Link to="/auth">Sign Up</Link></Button>
+                <Button asChild className="bg-[#009b5d] hover:bg-[#009b5d]"><Link to="/auth">Sign Up</Link></Button>
               </div>
             )}
             <div className="md:hidden">
@@ -133,7 +133,7 @@ const Navbar = () => {
           {!user && (
             <div className="px-2 pb-3 space-y-2">
               <Button variant="outline" asChild className="w-full justify-center"><Link to="/auth" onClick={() => setIsOpen(false)}>Login</Link></Button>
-              <Button asChild className="w-full justify-center bg-blue-600 hover:bg-blue-700"><Link to="/auth" onClick={() => setIsOpen(false)}>Sign Up</Link></Button>
+              <Button asChild className="w-full justify-center bg-[#009b5d] hover:bg-[#009b5d]"><Link to="/auth" onClick={() => setIsOpen(false)}>Sign Up</Link></Button>
             </div>
           )}
         </div>
