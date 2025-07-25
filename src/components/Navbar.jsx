@@ -37,7 +37,7 @@ const Navbar = () => {
       <NavLink
         to="/"
         className={({ isActive }) =>
-          `px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? "text-blue-600 bg-blue-50" : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+          `px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? "text-[#009b5d] bg-blue-50" : "text-gray-700 hover:text-[#009b5d] hover:bg-gray-50"
           }`
         }
         onClick={() => setIsOpen(false)}
@@ -47,7 +47,7 @@ const Navbar = () => {
       <NavLink
         to="/scholarships"
         className={({ isActive }) =>
-          `px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? "text-blue-600 bg-blue-50" : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+          `px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? "text-[#009b5d] bg-blue-50" : "text-gray-700 hover:text-[#009b5d] hover:bg-gray-50"
           }`
         }
         onClick={() => setIsOpen(false)}
@@ -58,7 +58,7 @@ const Navbar = () => {
         <NavLink
           to={getDashboardPath()}
           className={({ isActive }) =>
-            `px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? "text-blue-600 bg-blue-50" : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+            `px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? "text-[#009b5d] bg-blue-50" : "text-gray-700 hover:text-[#009b5d] hover:bg-gray-50"
             }`
           }
           onClick={() => setIsOpen(false)}
