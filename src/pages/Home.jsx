@@ -25,7 +25,7 @@ const ScholarshipCard = ({ scholarship }) => (
       </div>
     </CardContent>
     <CardFooter className="p-4 pt-0">
-      <Button asChild className="w-full bg-[#009b5d] hover:bg-[#009b5d]">
+      <Button asChild className="w-full bg-[#009b5d] hover:bg-[#009b5d] font-bold">
         <Link to={`/scholarship/${scholarship._id}`}>View Details <ChevronRight className="ml-2 h-4 w-4" /></Link>
       </Button>
     </CardFooter>
@@ -72,7 +72,7 @@ const Home = () => {
         )}
         <div className="text-center mt-12">
           <Link to="/scholarships">
-            <Button size="lg" className="bg-[#009b5d] hover:bg-[#009b5d] relative">
+            <Button size="lg" className="bg-white text-[#009b5d]  relative font-bold">
               View All Scholarships
               <ChevronRight className="ml-2 h-5 w-5" />
               <BorderBeam duration={6} size={400} className="from-transparent via-red-500 to-transparent" />

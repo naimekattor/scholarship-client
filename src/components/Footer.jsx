@@ -3,32 +3,32 @@ import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "luc
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-[#0b2441] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="bg-blue-600 text-white p-2 rounded-lg">
+              <div className="bg-[#009b5d] text-white p-2 rounded-lg">
                 <span className="font-bold text-xl">SG</span>
               </div>
               <span className="font-bold text-xl">Scholar Gateway</span>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Connecting students with their dream scholarships worldwide. 
+              Connecting students with their dream scholarships worldwide.
               Your journey to academic excellence starts here.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-[#009b5d] transition-colors">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-[#009b5d] transition-colors">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-[#009b5d] transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-[#009b5d] transition-colors">
                 <Linkedin className="h-5 w-5" />
               </a>
             </div>
