@@ -10,6 +10,9 @@ import router from './routes/Router.jsx';
 import AuthProvider from './context/AuthContext.jsx';
 
 const queryClient = new QueryClient();
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap from 'gsap';
+gsap.registerPlugin(ScrollTrigger);
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>

@@ -57,9 +57,8 @@ const HeroBanner = () => {
       {slides.map((slide, index) => (
         <div
           key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentSlide ? 'opacity-100' : 'opacity-0'
-          }`}
+          className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+            }`}
         >
           {/* Background Image */}
           <div
@@ -83,10 +82,10 @@ const HeroBanner = () => {
                   {slide.description}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-6">
+                  <Button asChild size="lg" className="bg-[#009b5d] hover:bg-[#009b5d] text-lg px-8 py-6">
                     <Link to={slide.ctaLink}>{slide.cta}</Link>
                   </Button>
-                  <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-900 text-lg px-8 py-6">
+                  <Button asChild variant="outline" size="lg" className="border-white text-black hover:bg-white hover:text-[#009b5d] text-lg px-8 py-6">
                     <Link to="/about">Learn More</Link>
                   </Button>
                 </div>
@@ -129,7 +128,7 @@ const HeroBanner = () => {
       >
         <ChevronLeft className="h-6 w-6" />
       </button>
-      
+
       <button
         onClick={nextSlide}
         className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
@@ -144,11 +143,10 @@ const HeroBanner = () => {
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-200 ${
-              index === currentSlide 
-                ? 'bg-white scale-125' 
-                : 'bg-white/50 hover:bg-white/75'
-            }`}
+            className={`w-3 h-3 rounded-full transition-all duration-200 ${index === currentSlide
+              ? 'bg-white scale-125'
+              : 'bg-white/50 hover:bg-white/75'
+              }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
