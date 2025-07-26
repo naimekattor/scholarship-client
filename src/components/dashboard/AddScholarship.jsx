@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2 } from "lucide-react";
 
-const IMGBB_API_KEY = 'ca6cf0c85991e33bc35ee0a50881908e'; // Replace with your key
+const IMGBB_API_KEY = 'ca6cf0c85991e33bc35ee0a50881908e'; 
 
 const AddScholarship = () => {
   const { register, handleSubmit, reset, control, formState: { errors } } = useForm();
