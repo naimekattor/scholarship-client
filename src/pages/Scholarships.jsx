@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useDebounce } from 'use-debounce';
+import { BorderBeam } from "../components/magicui/border-beam";
 
 const Scholarships = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -76,10 +77,12 @@ const Scholarships = () => {
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {scholarships.map((s) => (
-                <Card key={s._id} className="hover:shadow-lg transition-shadow duration-300 flex flex-col">
+                <Card key={s._id} className="py-0 relative hover:shadow-lg transition-shadow duration-300 flex flex-col">
                   <CardHeader className="p-0"><img src={s.universityLogo} alt={s.universityName} className="w-full h-48 object-cover rounded-t-lg" /></CardHeader>
                   <CardContent className="p-4 flex-grow"><Badge className="mb-2">{s.scholarshipCategory}</Badge><CardTitle className="text-lg mb-2">{s.scholarshipName}</CardTitle><p className="font-semibold text-md mb-3">{s.universityName}</p><div className="space-y-2 text-sm text-gray-600"><div className="flex items-center"><MapPin className="h-4 w-4 mr-2" />{s.universityCity}, {s.universityCountry}</div><div className="flex items-center"><Star className="h-4 w-4 mr-2 fill-yellow-400 text-yellow-400" />{s.averageRating.toFixed(1)}/5.0 ({s.reviews.length} reviews)</div></div></CardContent>
                   <CardFooter className="p-4 pt-0"><Button asChild className="w-full bg-[#009b5d] hover:bg-[#009b5d]/70"><Link to={`/scholarship/${s._id}`}>View Details</Link></Button></CardFooter>
+                  <BorderBeam duration={6} size={400} className="from-transparent via-red-500 to-transparent" />
+                                <BorderBeam duration={6} delay={3} size={400} borderWidth={2} className="from-transparent via-[#009b5d] to-transparent" />
                 </Card>
               ))}
             </div>
