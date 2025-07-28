@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+import logo from '../assets/imgaes/logo1.png'
 
 const Footer = () => {
   return (
@@ -9,10 +10,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="bg-[#009b5d] text-white p-2 rounded-lg">
-                <span className="font-bold text-xl">SG</span>
-              </div>
-              <span className="font-bold text-xl">Scholar Gateway</span>
+              <img src={logo} alt="scholarship gateway" className="w-[100px]" />
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
               Connecting students with their dream scholarships worldwide.

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import { Menu, X, User, LogOut, Settings, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from '../assets/imgaes/logo1.png'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -74,10 +75,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-[#009b5d] text-white p-2 rounded-lg">
-              <span className="font-bold text-xl">SG</span>
-            </div>
-            <span className="font-bold text-xl text-gray-900 hidden sm:block">Scholar Gateway</span>
+            <img src={logo} alt="scholarship gateway" className="w-[100px]" />
           </Link>
 
           <div className="hidden md:flex items-center space-x-4">{navItems}</div>
