@@ -21,15 +21,26 @@ const PaymentSuccess = () => {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="text-gray-600">
-              <p className="text-lg mb-2">Your scholarship application has been submitted successfully.</p>
-              <p>We have received your payment of <strong>$150</strong> and your application is now being processed.</p>
+              <p className="text-lg mb-2">
+                Your scholarship application has been submitted successfully.
+              </p>
+              <p>
+                We have received your payment of <strong>$150</strong> and your
+                application is now being processed.
+              </p>
             </div>
 
             <div className="bg-blue-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-[#009b5d]/70 mb-2">What's Next?</h3>
+              <h3 className="font-semibold text-[#009b5d]/70 mb-2">
+                What's Next?
+              </h3>
               <ul className="text-sm text-[#009b5d] space-y-1 text-left">
-                <li>• Your application will be reviewed within 5-7 business days</li>
-                <li>• You'll receive email updates about your application status</li>
+                <li>
+                  • Your application will be reviewed within 5-7 business days
+                </li>
+                <li>
+                  • You'll receive email updates about your application status
+                </li>
                 <li>• Check your dashboard for application progress</li>
                 <li>• Our team may contact you for additional information</li>
               </ul>
@@ -51,7 +62,10 @@ const PaymentSuccess = () => {
             </div>
 
             <div className="text-sm text-gray-500">
-              <p>Application ID: SCH-2024-{Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
+              <p>
+                Application ID: SCH-2024-
+                {Math.random().toString(36).substr(2, 9).toUpperCase()}
+              </p>
               <p>Please save this ID for your records</p>
             </div>
           </CardContent>

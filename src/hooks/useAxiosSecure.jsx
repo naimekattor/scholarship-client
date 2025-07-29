@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000/api", // Your backend server URL
+  baseURL: "http://localhost:5000/api", //  backend server URL
 });
 
 const useAxiosSecure = () => {
