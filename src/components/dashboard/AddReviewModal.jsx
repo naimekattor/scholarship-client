@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -6,13 +6,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
 
-const AddReviewModal = ({ isOpen, onClose, application }) => { // Removed interface and type annotations
+const AddReviewModal = ({ isOpen, onClose, application }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [hoveredRating, setHoveredRating] = useState(0);
+  const { user } = useContext(AuthContext);
+  console.log(user);
 
-  const handleSubmit = (e) => { // Removed : React.FormEvent
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (rating === 0) {
@@ -32,9 +37,21 @@ const AddReviewModal = ({ isOpen, onClose, application }) => { // Removed interf
       rating,
       comment,
       reviewDate: new Date().toISOString().split('T')[0],
-      userName: "John Doe", // This would come from auth context
-      userEmail: "john.doe@example.com"
+      userName: user?.name,
+      userEmail: user?.email
     };
+    axios.post(`http://localhost:5000/api/reviews/${application.scholarshipId}`, reviewData, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(res => {
+        console.log("Review submitted:", res.data);
+
+      }).catch(err => {
+        console.log(err);
+
+      })
 
     console.log("Submitting review:", reviewData);
     toast.success("Review submitted successfully!");
@@ -71,11 +88,10 @@ const AddReviewModal = ({ isOpen, onClose, application }) => { // Removed interf
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
                   key={star}
-                  className={`h-6 w-6 cursor-pointer transition-colors ${
-                    star <= (hoveredRating || rating)
-                      ? "fill-yellow-400 text-yellow-400"
-                      : "text-gray-300"
-                  }`}
+                  className={`h-6 w-6 cursor-pointer transition-colors ${star <= (hoveredRating || rating)
+                    ? "fill-yellow-400 text-yellow-400"
+                    : "text-gray-300"
+                    }`}
                   onClick={() => setRating(star)}
                   onMouseEnter={() => setHoveredRating(star)}
                   onMouseLeave={() => setHoveredRating(0)}

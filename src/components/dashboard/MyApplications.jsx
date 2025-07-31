@@ -22,14 +22,14 @@ const MyApplications = () => {
       return res.data;
     }
   });
-  
+
   const cancelMutation = useMutation({
-      mutationFn: (id) => axiosSecure.patch(`/applications/my/${id}/cancel`),
-      onSuccess: () => {
-          toast.success("Application cancelled successfully");
-          queryClient.invalidateQueries(['my-applications']);
-      },
-      onError: (err) => toast.error(err.response?.data?.message || "Failed to cancel.")
+    mutationFn: (id) => axiosSecure.patch(`/applications/my/${id}/cancel`),
+    onSuccess: () => {
+      toast.success("Application cancelled successfully");
+      queryClient.invalidateQueries(['my-applications']);
+    },
+    onError: (err) => toast.error(err.response?.data?.message || "Failed to cancel.")
   });
 
   const getStatusColor = (status) => ({
@@ -45,6 +45,8 @@ const MyApplications = () => {
   };
 
   const handleAddReview = (app) => {
+    console.log(app, reviewingApp);
+
     setReviewingApp(app);
     setShowReviewModal(true);
   };
@@ -77,7 +79,7 @@ const MyApplications = () => {
               ))}
             </TableBody>
           </Table>
-           {applications.length === 0 && <p className="text-center text-gray-500 py-8">You have not applied to any scholarships yet.</p>}
+          {applications.length === 0 && <p className="text-center text-gray-500 py-8">You have not applied to any scholarships yet.</p>}
         </CardContent>
       </Card>
       {showReviewModal && <AddReviewModal isOpen={showReviewModal} onClose={() => setShowReviewModal(false)} application={reviewingApp} />}
