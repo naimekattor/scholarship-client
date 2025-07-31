@@ -13,25 +13,21 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
-<<<<<<< HEAD
-=======
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
->>>>>>> 8fabde7239beaf24beeffd218da9b5e21cc93704
 
 const AddReviewModal = ({ isOpen, onClose, application }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [hoveredRating, setHoveredRating] = useState(0);
   const { user } = useContext(AuthContext);
-<<<<<<< HEAD
   console.log(user);
 
-
-=======
+  const { user } = useContext(AuthContext);
   console.log("user in AddReviewModal:", user);
 
   const axiosSecure = useAxiosSecure();
->>>>>>> 8fabde7239beaf24beeffd218da9b5e21cc93704
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(application);
@@ -51,32 +47,13 @@ const AddReviewModal = ({ isOpen, onClose, application }) => {
       scholarshipName: `${application?.universityName} Scholarship`,
       universityName: application?.universityName,
       rating,
-<<<<<<< HEAD
-      comment,
-      reviewDate: new Date().toISOString().split('T')[0],
-      userName: user?.name,
-      userEmail: user?.email
-=======
       reviewComment: comment,
       reviewDate: new Date().toISOString().split("T")[0],
       userName: user?.name || "Anonymous",
       userEmail: user?.email,
       userId: user?._id,
       scholarshipId: application?.scholarshipId,
->>>>>>> 8fabde7239beaf24beeffd218da9b5e21cc93704
     };
-    axios.post(`http://localhost:5000/api/reviews/${application.scholarshipId}`, reviewData, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-    })
-      .then(res => {
-        console.log("Review submitted:", res.data);
-
-      }).catch(err => {
-        console.log(err);
-
-      })
 
     axiosSecure
       .post(`/reviews/${application.scholarshipId}`, reviewData)
