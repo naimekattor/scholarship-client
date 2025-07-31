@@ -28,7 +28,7 @@ const Scholarships = () => {
       if (filters.degree !== 'all') params.append('degree', filters.degree);
       if (filters.subject !== 'all') params.append('subjectCategory', filters.subject);
 
-      const res = await axios.get(`http://localhost:5000/api/scholarships?${params.toString()}`);
+      const res = await axios.get(`https://scholarship-server-t1ko.onrender.com/api/scholarships?${params.toString()}`);
       return res.data;
     },
     keepPreviousData: true,
@@ -82,7 +82,7 @@ const Scholarships = () => {
                   <CardContent className="p-4 flex-grow"><Badge className="mb-2">{s.scholarshipCategory}</Badge><CardTitle className="text-lg mb-2">{s.scholarshipName}</CardTitle><p className="font-semibold text-md mb-3">{s.universityName}</p><div className="space-y-2 text-sm text-gray-600"><div className="flex items-center"><MapPin className="h-4 w-4 mr-2" />{s.universityCity}, {s.universityCountry}</div><div className="flex items-center"><Star className="h-4 w-4 mr-2 fill-yellow-400 text-yellow-400" />{s.averageRating.toFixed(1)}/5.0 ({s.reviews.length} reviews)</div></div></CardContent>
                   <CardFooter className="p-4 pt-0"><Button asChild className="w-full bg-[#009b5d] hover:bg-[#009b5d]/70"><Link to={`/scholarship/${s._id}`}>View Details</Link></Button></CardFooter>
                   <BorderBeam duration={6} size={400} className="from-transparent via-red-500 to-transparent" />
-                                <BorderBeam duration={6} delay={3} size={400} borderWidth={2} className="from-transparent via-[#009b5d] to-transparent" />
+                  <BorderBeam duration={6} delay={3} size={400} borderWidth={2} className="from-transparent via-[#009b5d] to-transparent" />
                 </Card>
               ))}
             </div>
