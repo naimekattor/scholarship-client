@@ -12,9 +12,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { AuthContext } from "../../context/AuthContext";
-import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
-import axios from "axios";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AddReviewModal = ({ isOpen, onClose, application }) => {
@@ -24,7 +21,6 @@ const AddReviewModal = ({ isOpen, onClose, application }) => {
   const { user } = useContext(AuthContext);
   console.log(user);
 
-  const { user } = useContext(AuthContext);
   console.log("user in AddReviewModal:", user);
 
   const axiosSecure = useAxiosSecure();
