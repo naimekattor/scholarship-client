@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000/api", // Your backend server URL
+  baseURL: "https://scholarship-server-ygrz.onrender.com/api", //  backend server URL
 });
 
 const useAxiosSecure = () => {

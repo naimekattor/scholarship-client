@@ -11,22 +11,22 @@ const AuthProvider = ({ children }) => {
   // Function to handle login
   const loginUser = (email, password) => {
     setLoading(true);
-    return api.post("/auth/login", { email, password }).then(res => {
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('user', JSON.stringify(res.data.user));
-        setUser(res.data.user);
-        setLoading(false);
-        return res.data;
+    return api.post("/auth/login", { email, password }).then((res) => {
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      setUser(res.data.user);
+      setLoading(false);
+      return res.data;
     });
   };
 
   // Function to handle register
   const registerUser = (name, email, password) => {
-     setLoading(true);
-     return api.post("/auth/register", { name, email, password }).then(res => {
-        setLoading(false);
-        return res.data;
-     });
+    setLoading(true);
+    return api.post("/auth/register", { name, email, password }).then((res) => {
+      setLoading(false);
+      return res.data;
+    });
   };
 
   // Function to handle logout
@@ -55,7 +55,9 @@ const AuthProvider = ({ children }) => {
     logOut,
   };
 
-  return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

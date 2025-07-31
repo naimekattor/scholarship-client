@@ -1,24 +1,40 @@
 import { useContext, useState } from "react";
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+<<<<<<< HEAD
+=======
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+>>>>>>> 8fabde7239beaf24beeffd218da9b5e21cc93704
 
 const AddReviewModal = ({ isOpen, onClose, application }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [hoveredRating, setHoveredRating] = useState(0);
   const { user } = useContext(AuthContext);
+<<<<<<< HEAD
   console.log(user);
 
 
+=======
+  console.log("user in AddReviewModal:", user);
+
+  const axiosSecure = useAxiosSecure();
+>>>>>>> 8fabde7239beaf24beeffd218da9b5e21cc93704
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(application);
 
     if (rating === 0) {
       toast.error("Please provide a rating");
@@ -35,10 +51,19 @@ const AddReviewModal = ({ isOpen, onClose, application }) => {
       scholarshipName: `${application?.universityName} Scholarship`,
       universityName: application?.universityName,
       rating,
+<<<<<<< HEAD
       comment,
       reviewDate: new Date().toISOString().split('T')[0],
       userName: user?.name,
       userEmail: user?.email
+=======
+      reviewComment: comment,
+      reviewDate: new Date().toISOString().split("T")[0],
+      userName: user?.name || "Anonymous",
+      userEmail: user?.email,
+      userId: user?._id,
+      scholarshipId: application?.scholarshipId,
+>>>>>>> 8fabde7239beaf24beeffd218da9b5e21cc93704
     };
     axios.post(`http://localhost:5000/api/reviews/${application.scholarshipId}`, reviewData, {
       headers: {
@@ -52,6 +77,15 @@ const AddReviewModal = ({ isOpen, onClose, application }) => {
         console.log(err);
 
       })
+
+    axiosSecure
+      .post(`/reviews/${application.scholarshipId}`, reviewData)
+      .then((res) => {
+        console.log("Review submitted:", res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     console.log("Submitting review:", reviewData);
     toast.success("Review submitted successfully!");
@@ -74,12 +108,20 @@ const AddReviewModal = ({ isOpen, onClose, application }) => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <Label>University Name</Label>
-            <Input value={application.universityName} readOnly className="bg-gray-100" />
+            <Input
+              value={application.universityName}
+              readOnly
+              className="bg-gray-100"
+            />
           </div>
 
           <div>
             <Label>Scholarship Name</Label>
-            <Input value={`${application.universityName} Scholarship`} readOnly className="bg-gray-100" />
+            <Input
+              value={`${application.universityName} Scholarship`}
+              readOnly
+              className="bg-gray-100"
+            />
           </div>
 
           <div>
