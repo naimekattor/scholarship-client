@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
 export const AuthContext = createContext(null);
-const api = axios.create({ baseURL: "http://localhost:5000/api" });
+const api = axios.create({ baseURL: "https://scholarship-server-t1ko.onrender.com/api" });
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
