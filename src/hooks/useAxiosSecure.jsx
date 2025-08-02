@@ -8,15 +8,16 @@ const axiosSecure = axios.create({
 
 const useAxiosSecure = () => {
   const navigate = useNavigate();
-  const { logOut } = useAuth();
+  const { logOut, user } = useAuth();
 
   // Request interceptor to add authorization header for every secure call to the api
   axiosSecure.interceptors.request.use(
     (config) => {
       const token = localStorage.getItem("token");
+      const accessToken = user?.accessToken || token; // Use user accessToken if available
       if (token) {
         // CORRECTED LINE: Use backticks (`) instead of single/double quotes
-        config.headers.Authorization = `Bearer ${token}`;
+        config.headers.Authorization = `Bearer ${accessToken}`;
       }
       return config;
     },

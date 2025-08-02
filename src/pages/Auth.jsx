@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { Eye, EyeOff, Mail, Lock, User, Github, Chrome, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
+import Swal from "sweetalert2";
+import { AuthContext } from "../context/AuthContext";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -16,7 +18,7 @@ const Auth = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-
+  const { setUser, googleSignIn, backendGoogleLogin } = useContext(AuthContext);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -29,7 +31,7 @@ const Auth = () => {
       if (!/[A-Z]/.test(password)) return toast.error("Password must contain a capital letter.");
       if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) return toast.error("Password must contain a special character.");
     }
-    
+
     try {
       if (isLogin) {
         await loginUser(email, password);
@@ -44,6 +46,36 @@ const Auth = () => {
       toast.error(error.response?.data?.message || "An error occurred.");
     }
   };
+
+  const handleGoogleSignIn = () => {
+    googleSignIn()
+      .then((result) => {
+        // The signed-in user info.
+        const userFromGoogle = result.user;
+        setUser(userFromGoogle);
+        backendGoogleLogin(userFromGoogle)
+          .then(() => {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "You have logged in successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate(from, { replace: true });
+          })
+          .catch((err) => {
+            toast.error(err.response?.data?.message || "An error occurred during Google login.");
+          });
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Something went wrong",
+          text: error.message,
+          icon: "error",
+        });
+      });
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
@@ -81,7 +113,7 @@ const Auth = () => {
           </form>
           <div className="relative my-4"><div className="absolute inset-0 flex items-center"><Separator /></div><div className="relative flex justify-center text-xs uppercase"><span className="bg-white px-2 text-gray-500">Or continue with</span></div></div>
           <div className="grid grid-cols-2 gap-3">
-            <Button variant="outline" disabled><Chrome className="mr-2 h-4 w-4" />Google</Button>
+            <Button variant="outline" onClick={handleGoogleSignIn}><Chrome className="mr-2 h-4 w-4" />Google</Button>
             <Button variant="outline" disabled><Github className="mr-2 h-4 w-4" />GitHub</Button>
           </div>
         </CardContent>
