@@ -18,6 +18,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logOut } = useAuth();
   const navigate = useNavigate();
+  console.log("user in navbar", user, user?.photoURL, user?.accessToken);
+
 
   const handleLogout = () => {
     logOut();
@@ -86,8 +88,8 @@ const Navbar = () => {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                     <Avatar className="h-10 w-10">
-                      <AvatarImage src={user.photo} alt={user.name} />
-                      <AvatarFallback>{user.name?.charAt(0).toUpperCase()}</AvatarFallback>
+                      <AvatarImage src={user.photoURL} alt={user.name} />
+                      <AvatarFallback>{user.displayName?.charAt(0).toUpperCase()}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>

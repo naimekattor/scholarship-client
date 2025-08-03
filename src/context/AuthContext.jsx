@@ -1,8 +1,12 @@
+import { signInWithPopup, signOut, GoogleAuthProvider, } from 'firebase/auth';
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { auth } from '../firebase/firebase.config';
 
 export const AuthContext = createContext(null);
-const api = axios.create({ baseURL: "http://localhost:5000/api" });
+const googleProvider = new GoogleAuthProvider();
+
+const api = axios.create({ baseURL: "https://scholarship-server-t1ko.onrender.com/api" });
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -29,12 +33,37 @@ const AuthProvider = ({ children }) => {
     });
   };
 
+  const backendGoogleLogin = (googleUser) => {
+    return api.post("/auth/google", {
+      name: googleUser.displayName,
+      email: googleUser.email,
+    }).then((res) => {
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      setUser(res.data.user);
+      setLoading(false);
+      return res.data;
+    });
+  };
+
+  // sign in with google
+  const googleSignIn = () => {
+    return signInWithPopup(auth, googleProvider);
+  }
+
   // Function to handle logout
   const logOut = () => {
     setLoading(true);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     setUser(null);
+    return signOut(auth).then(() => {
+      // console.log('signout successful');
+
+    }).catch((error) => {
+      // console.log(error);
+
+    });
     setLoading(false);
   };
 
@@ -49,10 +78,13 @@ const AuthProvider = ({ children }) => {
 
   const authInfo = {
     user,
+    setUser,
     loading,
     loginUser,
     registerUser,
     logOut,
+    googleSignIn,
+    backendGoogleLogin
   };
 
   return (

@@ -12,7 +12,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { AuthContext } from "../../context/AuthContext";
-import axios from "axios";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AddReviewModal = ({ isOpen, onClose, application }) => {
@@ -20,6 +19,8 @@ const AddReviewModal = ({ isOpen, onClose, application }) => {
   const [comment, setComment] = useState("");
   const [hoveredRating, setHoveredRating] = useState(0);
   const { user } = useContext(AuthContext);
+  console.log(user);
+
   console.log("user in AddReviewModal:", user);
 
   const axiosSecure = useAxiosSecure();
@@ -102,11 +103,10 @@ const AddReviewModal = ({ isOpen, onClose, application }) => {
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
                   key={star}
-                  className={`h-6 w-6 cursor-pointer transition-colors ${
-                    star <= (hoveredRating || rating)
-                      ? "fill-yellow-400 text-yellow-400"
-                      : "text-gray-300"
-                  }`}
+                  className={`h-6 w-6 cursor-pointer transition-colors ${star <= (hoveredRating || rating)
+                    ? "fill-yellow-400 text-yellow-400"
+                    : "text-gray-300"
+                    }`}
                   onClick={() => setRating(star)}
                   onMouseEnter={() => setHoveredRating(star)}
                   onMouseLeave={() => setHoveredRating(0)}

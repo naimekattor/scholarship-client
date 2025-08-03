@@ -49,7 +49,7 @@ const Home = () => {
   const { data: topScholarships = [], isLoading } = useQuery({
     queryKey: ['topScholarships'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:5000/api/scholarships?sort=top&limit=6');
+      const res = await axios.get('https://scholarship-server-t1ko.onrender.com/api/scholarships?sort=top&limit=6');
       return res.data.scholarships;
     }
   });
